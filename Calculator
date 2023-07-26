@@ -46,8 +46,8 @@ screenValue = StringVar()
 
 screenValue.set(" ")
 
-d = Entry(root, textvariable=screenValue, bg='grey',font="arial 38", relief=RIDGE)
-d.pack(pady=50,padx=20)
+display = Entry(root, textvariable=screenValue, bg='grey',font="arial 38", relief=RIDGE)
+display.pack(pady=50,padx=20)
 
 
 
