@@ -1,0 +1,103 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+questions = [
+    {
+        "question": " Which type of Programming does Python support?",
+        "options": ["A) object-oriented programming", "B) structured programming ", "C) functional programming", "D) All of these"],
+        "answer": "D",
+    },
+    {
+        "question": "All keywords in Python are in _________",
+        "options": ["A) Capitalized", "B) lower case", "C) UPPER CASE", "D) None of the mentioned"],
+        "answer": "D",
+    },
+    {
+        "question": " Grand Central Terminal, Park Avenue, New York is the world'?",
+        "options": ["A) largest railway station", "B) highest railway station", "C) longest railway station", "D) None of the above"],
+        "answer": "A",
+    },
+    {
+        "question": " For the Olympics and World Tournaments, the dimensions of basketball court are?",
+        "options": ["A) 26 m x 14 m", "B)28 m x 15 m ", "C) 27 m x 16 m", "D) 28 m x 16 m"],
+        "answer": "B",
+    },
+    {
+        "question": " Coral reefs in India can be found in?",
+        "options": ["A) the coast of Orissa", "B) Waltair ", "C) Rameshwaram", "D) Delhi"],
+        "answer": "C",
+    },
+
+]
+
+class QuizApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Quiz App")
+        self.score = 0
+        self.question = 0
+
+        self.question_label = tk.Label(root, text="", wraplength=400)
+        self.question_label.pack(pady=20)
+
+        self.option_var = tk.StringVar()
+        self.option_var.set(None)
+
+        self.option_buttons = []
+        for i in range(4):
+            button = tk.Radiobutton(
+                root,
+                text="",
+                variable=self.option_var,
+                value=i,
+                command=self.on_answer_select,
+            )
+            self.option_buttons.append(button)
+            button.pack(pady=5)
+
+        self.next_button = tk.Button(
+            root, text="Next", command=self.next_question, state=tk.DISABLED
+        )
+        self.next_button.pack(pady=10)
+
+        self.show_question()
+
+    def show_question(self):
+        self.option_var.set(None)
+        question = questions[self.question]
+        self.question_label.config(text=question["question"])
+
+        for i in range(4):
+            self.option_buttons[i].config(text=question["options"][i])
+
+        self.next_button.config(state=tk.DISABLED)
+
+    def on_answer_select(self):
+        selected_answer = self.option_var.get()
+        correct_answer = questions[self.question]["answer"]
+
+        if selected_answer == correct_answer:
+            self.score += 1
+
+        self.next_button.config(state=tk.NORMAL)
+
+    def next_question(self):
+        self.question += 1
+
+        if self.question < len(questions):
+            self.show_question()
+        else:
+            self.show_result()
+
+    def show_result(self):
+        messagebox.showinfo(
+            "Quiz Result",
+            f"Your final score is {self.score} out of {len(questions)}.",
+        )
+        self.root.destroy()
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = QuizApp(root)
+    root.mainloop()
